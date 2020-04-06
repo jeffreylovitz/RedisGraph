@@ -226,10 +226,15 @@ unsigned long long Record_Hash64(const Record r) {
 		Entry e = r->entries[i];
 		switch(e.type) {
 		case REC_TYPE_NODE:
-		case REC_TYPE_EDGE:
-			// Since nodes and edges cannot occupy the same index within
-			// a record, we do not need to differentiate on type
 			id = ENTITY_GET_ID(Record_GetGraphEntity(r, i));
+			data = &id;
+			len = sizeof(id);
+			break;
+		case REC_TYPE_EDGE:
+			id = ENTITY_GET_ID(Record_GetGraphEntity(r, i));
+			// To differentiate between nodes and edges, perform
+			// bitwise negation on edge IDs.
+			id = ~id;
 			data = &id;
 			len = sizeof(id);
 			break;
