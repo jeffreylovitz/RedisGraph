@@ -80,20 +80,20 @@ void Graph_Query(void *args) {
 	ResultSetFormatterType resultset_format = (compact) ? FORMATTER_COMPACT : FORMATTER_VERBOSE;
 
 	// Acquire the appropriate lock.
-	if(readonly) {
-		Graph_AcquireReadLock(gc->g);
-	} else {
-		Graph_WriterEnter(gc->g);  // Single writer.
-		/* If this is a writer query we need to re-open the graph key with write flag
-		* this notifies Redis that the key is "dirty" any watcher on that key will
-		* be notified. */
-		CommandCtx_ThreadSafeContextLock(command_ctx);
-		{
-			GraphContext_MarkWriter(ctx, gc);
-		}
-		CommandCtx_ThreadSafeContextUnlock(command_ctx);
-	}
-	lockAcquired = true;
+	// if(readonly) {
+	// Graph_AcquireReadLock(gc->g);
+	// } else {
+	// Graph_WriterEnter(gc->g);  // Single writer.
+	/* If this is a writer query we need to re-open the graph key with write flag
+	* this notifies Redis that the key is "dirty" any watcher on that key will
+	* be notified. */
+	// CommandCtx_ThreadSafeContextLock(command_ctx);
+	// {
+	// GraphContext_MarkWriter(ctx, gc);
+	// }
+	// CommandCtx_ThreadSafeContextUnlock(command_ctx);
+	// }
+	// lockAcquired = true;
 
 	// Set policy after lock acquisition, avoid resetting policies between readers and writers.
 	Graph_SetMatrixPolicy(gc->g, SYNC_AND_MINIMIZE_SPACE);
@@ -148,3 +148,4 @@ cleanup:
 	CommandCtx_Free(command_ctx);
 	QueryCtx_Free(); // Reset the QueryCtx and free its allocations.
 }
+
