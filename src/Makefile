@@ -168,6 +168,9 @@ parser:
 redisgraph.so: $(MODULE)
 	$(REDISGRAPH_CC) -o $@ $(CC_OBJECTS) $(LIBS) $(SHOBJ_LDFLAGS) -lc -lm
 
+binary: $(MODULE)
+	$(REDISGRAPH_CC) -o ../binary/binary.out ../binary/binary.c $(CC_OBJECTS) $(LIBS) -I$(RAX_DIR) -I$(LIBCYPHER-PARSER_DIR) -I$(XXHASH_DIR) -I$(REDISEARCH_DIR) -ldl -lpthread -fopenmp -lc -lm
+
 clean:
 	@find . -name '*.[oad]' -type f -delete
 	@-rm -f redisgraph.so

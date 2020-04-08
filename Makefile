@@ -1,7 +1,10 @@
-.PHONY: all clean package docker docker_push builddocs localdocs deploydocs test test_valgrind
+.PHONY: all clean package docker docker_push builddocs localdocs deploydocs test test_valgrind binary
 
 all:
 	@$(MAKE) -C ./src all
+
+binary:
+	@$(MAKE) -C ./src binary
 
 clean:
 	@$(MAKE) -C ./src $@
